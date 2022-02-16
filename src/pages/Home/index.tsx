@@ -33,9 +33,9 @@ const Home = (): JSX.Element => {
     async function loadProducts() {
       api.get('/products')
       .then(response => setProducts(response.data))
-    }
-    
-    loadProducts();
+    } 
+
+    loadProducts();    
   }, []);
 
   function handleAddProduct(id: number) {
@@ -68,8 +68,7 @@ const Home = (): JSX.Element => {
           </button>
         </li>
         )
-      })}
-      
+      })}    
     </ProductList>
   );
 };
