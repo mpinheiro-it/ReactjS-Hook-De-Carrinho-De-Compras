@@ -23,11 +23,15 @@ interface CartItemsAmount {
 
 const Home = (): JSX.Element => {
   const [products, setProducts] = useState<ProductFormatted[]>([]);
-  // const { addProduct, cart } = useCart();
+  const { addProduct, cart } = useCart();
 
-  // const cartItemsAmount = cart.reduce((sumAmount, product) => {
-  //   // TODO
-  // }, {} as CartItemsAmount)
+  const cartItemsAmount = cart.reduce((sumAmount, product) => {
+      const cartItemsObject = {...sumAmount};
+
+      cartItemsObject[product.id] = product.amount;
+
+      return cartItemsObject
+  }, {} as CartItemsAmount)
 
   useEffect(() => {
     async function loadProducts() {
@@ -38,8 +42,8 @@ const Home = (): JSX.Element => {
     loadProducts();    
   }, []);
 
-  function handleAddProduct(id: number) {
-    // TODO
+  function handleAddProduct(id: number) {      
+    addProduct(id);
   }
 
   return (
@@ -50,18 +54,18 @@ const Home = (): JSX.Element => {
 
         return (
 
-        <li>
+        <li key={product.id}>
           <img src={product.image} />
           <strong>{product.title}</strong>
           <span>{product.priceFormatted}</span>
           <button
             type="button"
             data-testid="add-product-button"
-          // onClick={() => handleAddProduct(product.id)}
+            onClick={() => handleAddProduct(product.id)}
           >
             <div data-testid="cart-product-quantity">
               <MdAddShoppingCart size={16} color="#FFF" />
-              {/* {cartItemsAmount[product.id] || 0} */} 0
+              {cartItemsAmount[product.id] || 0}
             </div>
 
             <span>ADICIONAR AO CARRINHO</span>
